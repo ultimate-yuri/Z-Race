@@ -1,30 +1,13 @@
 hg = hg or {}
-hg.Version = "Release 1.4.1"
-hg.GitHub_ReposOwner = "uzelezz123"
-hg.GitHub_ReposName = "Z-City" -- please add your real git fork!
+hg.Version = "Z-Race Edition"
+hg.GitHub_ReposOwner = "ultimate-yuri"
+hg.GitHub_ReposName = "Z-Race"
 
-local hg_loadcontent = CreateConVar("hg_loadcontent", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Toggle loading content to clients using 'resource.AddWorkshop' (need server restart to apply)")
-if SERVER and hg_loadcontent:GetBool() then
-	resource.AddWorkshop("3657285193") -- main addon
 	resource.AddWorkshop("3657897364") -- main content addon
 	resource.AddWorkshop("3657294321") -- first content addon
 	resource.AddWorkshop("3544105055") -- second content addon
 	resource.AddWorkshop("3257937532") -- distac content
-end
--- if hg.GitHub_ReposOwner and hg.GitHub_ReposOwner != "" then
--- 	http.Fetch( "https://api.github.com/repos/" .. hg.GitHub_ReposOwner .. "/" .. hg.GitHub_ReposName .. "/commits?sha=" .. hg.GitHub_Branch .. "&per_page=1",
--- 		function( body, length, headers, code )
--- 			--PrintTable(headers)
--- 			local tbl = util.JSONToTable(body)
--- 			hg.Git_LastCommitTime = tbl[1]["committer"]["date"]
 
--- 		end
--- 	)
--- else
--- 	hg.GitHub_ReposOwner = "Unknown"
--- 	hg.GitHub_ReposName = "Please add your github fork"
--- 	hg.Git_CommitNumber = "Unknown"
--- end
 local sides = {
 	["sv_"] = "sv_",
 	["sh_"] = "sh_",
@@ -72,13 +55,11 @@ local function IncludeDir(dir)
 end
 
 local function Run()
-	local time = SysTime()
-	print("Loading zcity...") -- Loading homigrad :]
+	print("Loading zrace")
 	hg.loaded = false
-	if engine.ActiveGamemode() == "ixhl2rp" then return end
 	IncludeDir("homigrad")
 	hg.loaded = true
-	print("Loaded zcity, " .. tostring(math.Round(SysTime() - time, 5)) .. " seconds needed")
+	print("Loaded zrace")
 	hook.Run("HomigradRun")
 end
 
@@ -88,18 +69,4 @@ hook.Add("InitPostEntity", "zcity", function()
 	IncludeDir("initpost")
 	print("Loading initpost...")
 end)
-if initpost then Run() end
 Run()
-
-timer.Simple(5, function()
-	if not istable(ulx) then
-		for i = 1, 6 do
-			MsgC(Color(255, 0, 0), "WARNING: Server doesn't have ULX & ULib installed! Z-City will not work properly without it!\n")
-		end
-	end
-	if game.SinglePlayer() then
-		for i = 1, 3 do
-			MsgC(Color(255, 0, 0), "WARNING: Game started in singleplayer! Z-City may not work properly until you start multiplayer game!\n")
-		end
-	end
-end)
