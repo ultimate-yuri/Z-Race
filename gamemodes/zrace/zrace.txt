@@ -1,0 +1,8 @@
+"zcity"
+{
+	"base" "base"
+	"title" "Z-Race"
+	"maps" "^zrace_"
+	"menusystem" "1"
+	"category" "pvp"
+}
